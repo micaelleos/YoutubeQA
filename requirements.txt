@@ -1,0 +1,11 @@
+langchain
+openai
+langchain-community
+pydantic
+langchain_openai
+chromadb
+tiktoken
+langchain-chroma
+langgraph
+streamlit
+youtube-transcript-api
