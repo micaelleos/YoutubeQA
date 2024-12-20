@@ -9,3 +9,4 @@ langchain-chroma
 langgraph
 streamlit
 youtube-transcript-api
+pysqlite3-binary

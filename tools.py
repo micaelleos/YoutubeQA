@@ -1,8 +1,14 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter, WebVTTFormatter, SRTFormatter
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 import chromadb
+from langchain_core.tools import tool
+from langchain_core.documents import Document
+
 
 PERSIST_DIR ='/chroma/'
 
@@ -27,6 +33,7 @@ def format_transcript(transcript):
   formated_list = []
   frase = ""
   for t in transcript:
+    print(t)
     tempo += t['duration']
     frase += t['text']
     if tempo >= 300:
@@ -50,7 +57,7 @@ def format_doc(docs,link):
 
 def load_doc_to_db(doc_splits):
     
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=OPENAI_API_KEY)
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=OPEN_API_KEY)
     db = vector_store()
     
     # Add to vectorDB
@@ -62,10 +69,15 @@ def load_doc_to_db(doc_splits):
     )
 
 def load_doc_pipeline(link,language_code='pt'):
+    print(link)
     transcript = get_youtube_transcription(link,language_code)
+    print(transcript)
     formated_list = format_transcript(transcript)
+    print("formated_list", formated_list)
     doc_splits = format_doc(formated_list,link)
+    print(doc_splits)
     load_doc_to_db(doc_splits)
+    print('load OK')
 
 def vector_store():
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=OPENAI_API_KEY)

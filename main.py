@@ -3,6 +3,7 @@ import time
 from youtubeqa import Bot
 from tools import load_doc_pipeline
 
+
 # Streamed response emulator
 def response_generator(response):
     time.sleep(0.03)
@@ -17,11 +18,15 @@ if "issues" not in st.session_state:
     st.session_state.issues = []
 
 bot = Bot()
-
-st.markdown("## YoutubeQA")
-url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
-load_doc_pipeline(url)
-st.divider()
+with st.container():
+    st.markdown("## YoutubeQA")
+    url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
+    if url:
+        try:
+            load_doc_pipeline(url)
+        except Exception as e:
+            st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
+    st.divider()
 
 
 @st.fragment
