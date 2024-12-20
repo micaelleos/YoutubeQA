@@ -20,7 +20,7 @@ def get_youtube_transcription(video_url, language_code='pt'):
             video_id = video_id.split("&")[0]
 
         # Obter a transcrição no idioma especificado
-        transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=[language_code])
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
 
         return transcript
 
