@@ -25,6 +25,7 @@ with st.container():
         try:
             load_doc_pipeline(url)
         except Exception as e:
+            st.exception(e)
             st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
     st.divider()
 
