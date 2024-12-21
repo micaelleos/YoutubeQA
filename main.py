@@ -54,11 +54,11 @@ def atualizar_chat(chat_container,prompt=None):
 
             st.session_state.messages.append({"role": "assistant", "content": response})
 
+with st.container():
+    chat_container = st.container(height=400,border=False)
+    atualizar_chat(chat_container)
 
-chat_container = st.container(height=400,border=False)
-atualizar_chat(chat_container)
+    if prompt:= st.chat_input("Faça uma pergunta", key="user_input"):
 
-if prompt:= st.chat_input("Faça uma pergunta", key="user_input"):
-
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    atualizar_chat(chat_container,prompt)
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        atualizar_chat(chat_container,prompt)
