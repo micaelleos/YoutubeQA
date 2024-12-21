@@ -55,8 +55,6 @@ with st.container():
     elif st.session_state["load"] == "ERRO":
         st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
 
-    st.divider()
-
 
 @st.fragment
 def atualizar_chat(chat_container,prompt=None):
