@@ -37,7 +37,7 @@ with st.container():
     with cols[0]:
         url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
     with cols[1]:
-        if st.button("Ok"):
+        if st.button("Ok",use_container_width=True):
             try:
                 with st.spinner(""):
                     load_doc_pipeline(url)
@@ -51,7 +51,7 @@ with st.container():
             st.success("Video carregado com sucesso.")
         elif st.session_state["load"] == "ERRO":
             st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
-            
+
     st.divider()
 
 
