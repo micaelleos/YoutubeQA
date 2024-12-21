@@ -2,6 +2,7 @@ __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import os
+import shutil
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter, WebVTTFormatter, SRTFormatter
 from langchain_openai import OpenAIEmbeddings
@@ -49,38 +50,54 @@ def format_doc(docs,link):
   return formated_docs
 
 def load_doc_to_db(doc_splits):
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
-    try:
-      db = vector_store()
-      # Add to vectorDB
-      db.from_documents(
-          documents=doc_splits,
-          collection_name="rag-chroma",
-          embedding=embeddings,
-          persist_directory=PERSIST_DIR
-      )
-    except:
-      vectordb = Chroma.from_documents(documents=doc_splits,
-                                      embedding=embeddings,
-                                      collection_name="rag-chroma",
-                                      persist_directory=PERSIST_DIR
-                                    )  
+  embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
+  db = vector_store()
+  # Add to vectorDB
+  db.from_documents(
+      documents=doc_splits,
+      collection_name="rag-chroma",
+      embedding=embeddings
+  )
 
 def load_doc_pipeline(link,language_code='pt'):
-    transcript = get_youtube_transcription(link)
-    formated_list = format_transcript(transcript)
-    doc_splits = format_doc(formated_list,link)
-    load_doc_to_db(doc_splits)
-    print("video loaded")
+  transcript = get_youtube_transcription(link)
+  formated_list = format_transcript(transcript)
+  doc_splits = format_doc(formated_list,link)
+  load_doc_to_db(doc_splits)
+  print("video loaded")
 
 def vector_store():
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
-  persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
+  #persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
+  persistent_client = chromadb.Client(Settings(
+                                      chroma_db_impl="duckdb+parquet",
+                                      persist_directory=None  # Dados temporários
+                                  ))
   vectorstore = Chroma(client=persistent_client,
                                   collection_name="rag-chroma",
                                   embedding_function=embeddings,
                                   )
   return vectorstore
+
+
+
+def limpar_pasta(caminho_pasta=PERSIST_DIR):
+
+    if not os.path.exists(caminho_pasta):
+        print(f"A pasta '{caminho_pasta}' não existe.")
+        return
+    
+    for item in os.listdir(caminho_pasta):
+        item_caminho = os.path.join(caminho_pasta, item)
+        try:
+            if os.path.isfile(item_caminho) or os.path.islink(item_caminho):
+                os.unlink(item_caminho)  # Remove arquivos e links simbólicos
+            elif os.path.isdir(item_caminho):
+                shutil.rmtree(item_caminho)  # Remove diretórios e seus conteúdos
+        except Exception as e:
+            print(f"Erro ao excluir '{item_caminho}': {e}")
+    print(f"A pasta '{caminho_pasta}' foi limpa com sucesso!")
+
 
 @tool(response_format="content_and_artifact")
 def retriever(query: str):
