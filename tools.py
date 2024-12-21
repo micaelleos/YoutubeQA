@@ -1,6 +1,7 @@
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import os
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter, WebVTTFormatter, SRTFormatter
 from langchain_openai import OpenAIEmbeddings
@@ -73,7 +74,7 @@ def load_doc_pipeline(link,language_code='pt'):
     print('load OK')
 
 def vector_store():
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=OPENAI_API_KEY)
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
     persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
     vectorstore = Chroma(client=persistent_client,
                                     collection_name="rag-chroma",
