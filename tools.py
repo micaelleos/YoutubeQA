@@ -71,6 +71,7 @@ def load_doc_pipeline(link,language_code='pt'):
     formated_list = format_transcript(transcript)
     doc_splits = format_doc(formated_list,link)
     load_doc_to_db(doc_splits)
+    print("video loaded")
 
 def vector_store():
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
