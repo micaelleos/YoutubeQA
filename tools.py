@@ -71,18 +71,18 @@ def load_doc_pipeline(link,language_code='pt'):
 def vector_store():
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
   persistent_client = create_chroma_client()
+  #persistent_client = st.session_state["db"]
   vectorstore = Chroma(client=persistent_client,
                                   collection_name="rag-chroma",
                                   embedding_function=embeddings,
                                   )
   return vectorstore
 
-@st.cache_resource
+@st.cache_resource()
 def create_chroma_client():
-  with tempfile.TemporaryDirectory() as temp_dir:
-    persistent_client = chromadb.PersistentClient(path=temp_dir)
-    return persistent_client
-
+  persistent_client = chromadb.PersistentClient()
+  #st.session_state.db = persistent_client
+  return persistent_client
 
 def limpar_pasta(caminho_pasta=PERSIST_DIR):
 
