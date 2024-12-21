@@ -80,11 +80,8 @@ def vector_store():
 @st.cache_resource
 def create_chroma_client():
   with tempfile.TemporaryDirectory() as temp_dir:
-    client = chromadb.Client(Settings(
-        chroma_db_impl="duckdb+parquet",
-        persist_directory=temp_dir
-    ))
-    return client
+    persistent_client = chromadb.PersistentClient(path=temp_dir)
+    return persistent_client
 
 
 def limpar_pasta(caminho_pasta=PERSIST_DIR):
