@@ -51,7 +51,7 @@ def format_doc(docs,link):
 
 def load_doc_to_db(doc_splits):
     
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=OPEN_API_KEY)
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
     db = vector_store()
     
     # Add to vectorDB
