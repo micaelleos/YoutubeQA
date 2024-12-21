@@ -50,17 +50,22 @@ def format_doc(docs,link):
   return formated_docs
 
 def load_doc_to_db(doc_splits):
-    
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
-    db = vector_store()
-    
-    # Add to vectorDB
-    db.from_documents(
-        documents=doc_splits,
-        collection_name="rag-chroma",
-        embedding=embeddings,
-        persist_directory=PERSIST_DIR
-    )
+    try:
+      db = vector_store()
+      # Add to vectorDB
+      db.from_documents(
+          documents=doc_splits,
+          collection_name="rag-chroma",
+          embedding=embeddings,
+          persist_directory=PERSIST_DIR
+      )
+    except:
+      vectordb = Chroma.from_documents(documents=doc_splits,
+                                      embedding=embeddings,
+                                      collection_name="rag-chroma",
+                                      persist_directory=PERSIST_DIR
+                                    )  
 
 def load_doc_pipeline(link,language_code='pt'):
     transcript = get_youtube_transcription(link)
@@ -69,13 +74,13 @@ def load_doc_pipeline(link,language_code='pt'):
     load_doc_to_db(doc_splits)
 
 def vector_store():
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
-    persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
-    vectorstore = Chroma(client=persistent_client,
-                                    collection_name="rag-chroma",
-                                    embedding_function=embeddings,
-                                    )
-    return vectorstore
+  embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
+  persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
+  vectorstore = Chroma(client=persistent_client,
+                                  collection_name="rag-chroma",
+                                  embedding_function=embeddings,
+                                  )
+  return vectorstore
 
 @tool(response_format="content_and_artifact")
 def retriever(query: str):
