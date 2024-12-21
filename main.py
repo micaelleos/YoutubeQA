@@ -39,12 +39,19 @@ with st.container():
     with cols[1]:
         if st.button("Ok"):
             try:
-                with st.spinner("Carregando transcrições do vídeo"):
+                with st.spinner(""):
                     load_doc_pipeline(url)
-                st.success("Video carregado com sucesso.")
+                    st.session_state["load"] = "Sucesso"
+                
             except Exception as e:
                 st.exception(e)
-                st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
+                st.session_state["load"] = "ERRO"
+                
+        if st.session_state["load"] == "Sucesso":
+            st.success("Video carregado com sucesso.")
+        elif st.session_state["load"] == "ERRO":
+            st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
+            
     st.divider()
 
 
