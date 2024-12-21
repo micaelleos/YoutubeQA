@@ -50,10 +50,10 @@ with st.container():
                 st.exception(e)
                 st.session_state["load"] = "ERRO"
                 
-        if st.session_state["load"] == "Sucesso":
-            st.success("Video carregado com sucesso.")
-        elif st.session_state["load"] == "ERRO":
-            st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
+    if st.session_state["load"] == "Sucesso":
+        st.success("Video carregado com sucesso.")
+    elif st.session_state["load"] == "ERRO":
+        st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
 
     st.divider()
 
