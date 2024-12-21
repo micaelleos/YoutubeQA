@@ -34,7 +34,7 @@ bot = Bot()
 with st.container():
     st.markdown("## YoutubeQA")
     url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
-    with st.button("Ok"):
+    if st.button("Ok"):
         try:
             with st.spinner("Carregando transcrições do vídeo"):
                 load_doc_pipeline(url)
