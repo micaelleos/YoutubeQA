@@ -11,7 +11,7 @@ from langchain_core.tools import tool
 from langchain_core.documents import Document
 
 
-PERSIST_DIR ='/chroma'
+PERSIST_DIR ='chroma/'
 
 def get_youtube_transcription(video_url, language_code=['pt']):
   # Extrair o ID do vídeo a partir do URL
@@ -28,7 +28,6 @@ def format_transcript(transcript):
   formated_list = []
   frase = ""
   for t in transcript:
-    print(t)
     tempo += t['duration']
     frase += t['text']
     if tempo >= 300:
