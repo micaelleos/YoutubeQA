@@ -11,7 +11,7 @@ from langchain_core.tools import tool
 from langchain_core.documents import Document
 
 
-PERSIST_DIR ='/chroma/'
+PERSIST_DIR ='/chroma'
 
 def get_youtube_transcription(video_url, language_code=['pt']):
   # Extrair o ID do vídeo a partir do URL
