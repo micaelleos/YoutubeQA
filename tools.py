@@ -12,20 +12,14 @@ from langchain_core.documents import Document
 
 PERSIST_DIR ='/chroma/'
 
-def get_youtube_transcription(video_url, language_code='pt'):
-    try:
-        # Extrair o ID do vídeo a partir do URL
-        video_id = video_url.split("v=")[-1]
-        if "&" in video_id:
-            video_id = video_id.split("&")[0]
-
-        # Obter a transcrição no idioma especificado
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
-
-        return transcript
-
-    except Exception as e:
-        return f"Erro ao obter transcrição: {e}"
+def get_youtube_transcription(video_url, language_code=['pt']):
+  # Extrair o ID do vídeo a partir do URL
+  video_id = video_url.split("v=")[-1]
+  if "&" in video_id:
+      video_id = video_id.split("&")[0]
+  # Obter a transcrição no idioma especificado
+  transcript = YouTubeTranscriptApi.get_transcript(video_id,languages=language_code)
+  return transcript
 
 
 def format_transcript(transcript):
@@ -43,7 +37,6 @@ def format_transcript(transcript):
     formated_list.append({"text":frase,"start":round(tempo)})
   return formated_list
 
-from langchain_core.documents import Document
 def format_doc(docs,link):
   formated_docs = []
   for doc in docs:
@@ -70,7 +63,7 @@ def load_doc_to_db(doc_splits):
 
 def load_doc_pipeline(link,language_code='pt'):
     print(link)
-    transcript = get_youtube_transcription(link,language_code)
+    transcript = get_youtube_transcription(link)
     print(transcript)
     formated_list = format_transcript(transcript)
     print("formated_list", formated_list)
