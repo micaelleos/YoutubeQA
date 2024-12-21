@@ -63,15 +63,10 @@ def load_doc_to_db(doc_splits):
     )
 
 def load_doc_pipeline(link,language_code='pt'):
-    print(link)
     transcript = get_youtube_transcription(link)
-    print(transcript)
     formated_list = format_transcript(transcript)
-    print("formated_list", formated_list)
     doc_splits = format_doc(formated_list,link)
-    print(doc_splits)
     load_doc_to_db(doc_splits)
-    print('load OK')
 
 def vector_store():
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
