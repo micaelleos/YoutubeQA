@@ -72,7 +72,7 @@ def vector_store():
   #persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
   persistent_client = chromadb.Client(Settings(
                                       chroma_db_impl="duckdb+parquet",
-                                      persist_directory=None  # Dados temporários
+                                      persist_directory=PERSIST_DIR  # Dados temporários
                                   ))
   vectorstore = Chroma(client=persistent_client,
                                   collection_name="rag-chroma",
