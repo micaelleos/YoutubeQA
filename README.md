@@ -28,8 +28,8 @@ Certifique-se de que você tenha os seguintes itens instalados em seu ambiente:
 1. Clone este repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/youtube-qa-bot.git
-   cd youtube-qa-bot
+   git clone https://github.com/micaelleos/YoutubeQA.git
+   cd YoutubeQA
    ```
 
 2. Instale as dependências necessárias:
@@ -41,9 +41,7 @@ Certifique-se de que você tenha os seguintes itens instalados em seu ambiente:
 3. Configure as variáveis de ambiente necessárias (como chaves de API para o YouTube, LangGraph e Chroma):
 
    ```bash
-   export YOUTUBE_API_KEY="sua_chave_aqui"
-   export CHROMA_API_KEY="sua_chave_aqui"
-   export LANGGRAPH_API_KEY="sua_chave_aqui"
+   export OPEN_API_KEY="sua_chave_aqui"
    ```
 
 4. Inicie o aplicativo Streamlit:
@@ -64,11 +62,12 @@ Certifique-se de que você tenha os seguintes itens instalados em seu ambiente:
 ## Estrutura do Projeto
 
 ```
-├── app.py             # Arquivo principal da aplicação Streamlit
-├── requirements.txt   # Lista de dependências do projeto
-├── utils/             # Funções auxiliares (extração de dados, integração com APIs, etc.)
-├── models/            # Modelos e arquivos relacionados ao LangGraph e Chroma
-└── README.md          # Documentação do projeto
+├── main.py             # Arquivo principal da aplicação Streamlit
+├── README.md          # Documentação do projeto
+├── prompt.py
+├── requirements.txt
+├── tools.py
+└── youtubeqa.py
 ```
 
 ## Contribuições
@@ -96,5 +95,5 @@ Este projeto está licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](L
 
 ---
 
-Desenvolvido com ❤ por [Seu Nome].
+Desenvolvido com ❤ por [Micaelle Souza].
 
