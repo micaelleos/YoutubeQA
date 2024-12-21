@@ -3,6 +3,19 @@ import time
 from youtubeqa import Bot
 from tools import load_doc_pipeline
 
+st.html("""
+    <style>
+    .st-emotion-cache-0{
+                position: sticky;
+                top: 3.75rem; 
+                // width: 50%; 
+                z-index:9999; 
+                background-color: white}
+    .st-emotion-cache-bm2z3a{
+        width: 100%; 
+    }
+    </style>
+""")
 
 # Streamed response emulator
 def response_generator(response):
@@ -54,11 +67,11 @@ def atualizar_chat(chat_container,prompt=None):
 
             st.session_state.messages.append({"role": "assistant", "content": response})
 
-with st.container():
-    chat_container = st.container(height=400,border=False)
-    atualizar_chat(chat_container)
 
-    if prompt:= st.chat_input("Faça uma pergunta", key="user_input"):
+chat_container = st.container(height=400,border=False)
+atualizar_chat(chat_container)
 
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        atualizar_chat(chat_container,prompt)
+if prompt:= st.chat_input("Faça uma pergunta", key="user_input"):
+
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    atualizar_chat(chat_container,prompt)
