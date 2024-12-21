@@ -36,7 +36,8 @@ with st.container():
     url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
     if url:
         try:
-            load_doc_pipeline(url)
+            with st.spinner("Carregando transcrições do vídeo"):
+                load_doc_pipeline(url)
             st.success("Video carregado com sucesso.")
         except Exception as e:
             st.exception(e)
