@@ -3,19 +3,19 @@ import time
 from youtubeqa import Bot
 from tools import load_doc_pipeline
 
-st.html("""
-    <style>
-    .st-emotion-cache-0{
-                position: sticky;
-                top: 3.75rem; 
-                // width: 50%; 
-                z-index:9999; 
-                background-color: white}
-    .st-emotion-cache-bm2z3a{
-        width: 100%; 
-    }
-    </style>
-""")
+# st.html("""
+#     <style>
+#     .st-emotion-cache-0{
+#                 position: sticky;
+#                 top: 3.75rem; 
+#                 // width: 50%; 
+#                 z-index:9999; 
+#                 background-color: white}
+#     .st-emotion-cache-bm2z3a{
+#         width: 100%; 
+#     }
+#     </style>
+# """)
 
 # Streamed response emulator
 def response_generator(response):
@@ -39,9 +39,11 @@ with st.container():
             with st.spinner("Carregando transcrições do vídeo"):
                 load_doc_pipeline(url)
             st.success("Video carregado com sucesso.")
+            url = None
         except Exception as e:
             st.exception(e)
             st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
+            url = None
     st.divider()
 
 
