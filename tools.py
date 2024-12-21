@@ -68,21 +68,16 @@ def load_doc_pipeline(link,language_code='pt'):
   load_doc_to_db(doc_splits)
   print("video loaded")
 
+@st.cache_resource()
 def vector_store():
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
-  persistent_client = create_chroma_client()
-  #persistent_client = st.session_state["db"]
+  persistent_client = chromadb.PersistentClient()
   vectorstore = Chroma(client=persistent_client,
                                   collection_name="rag-chroma",
                                   embedding_function=embeddings,
                                   )
   return vectorstore
 
-@st.cache_resource()
-def create_chroma_client():
-  persistent_client = chromadb.PersistentClient()
-  #st.session_state.db = persistent_client
-  return persistent_client
 
 def limpar_pasta(caminho_pasta=PERSIST_DIR):
 
