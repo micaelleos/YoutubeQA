@@ -33,15 +33,18 @@ if "issues" not in st.session_state:
 bot = Bot()
 with st.container():
     st.markdown("## YoutubeQA")
-    url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
-    if st.button("Ok"):
-        try:
-            with st.spinner("Carregando transcrições do vídeo"):
-                load_doc_pipeline(url)
-            st.success("Video carregado com sucesso.")
-        except Exception as e:
-            st.exception(e)
-            st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
+    cols = st.columns([0.8,0.2])
+    with cols[0]:
+        url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
+    with cols[1]:
+        if st.button("Ok"):
+            try:
+                with st.spinner("Carregando transcrições do vídeo"):
+                    load_doc_pipeline(url)
+                st.success("Video carregado com sucesso.")
+            except Exception as e:
+                st.exception(e)
+                st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
     st.divider()
 
 
