@@ -30,6 +30,9 @@ if "messages" not in st.session_state:
 if "issues" not in st.session_state:
     st.session_state.issues = []
 
+if "load" not in st.session_state:
+    st.session_state.load = []
+
 bot = Bot()
 with st.container():
     st.markdown("## YoutubeQA")
