@@ -34,16 +34,14 @@ bot = Bot()
 with st.container():
     st.markdown("## YoutubeQA")
     url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
-    if url:
+    with st.button("Ok"):
         try:
             with st.spinner("Carregando transcrições do vídeo"):
                 load_doc_pipeline(url)
             st.success("Video carregado com sucesso.")
-            url = None
         except Exception as e:
             st.exception(e)
             st.error('Infelizmente esse vídeo não possui transcrição', icon="🚨")
-            url = None
     st.divider()
 
 
