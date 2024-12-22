@@ -85,6 +85,8 @@ def retriever(query: str):
         (f"Source: {doc.metadata}\n" f"Content: {doc.page_content}")
         for doc in retrieved_docs
     )
+    print("Ferramenta acionada")
+    print(serialized)
     return serialized, retrieved_docs
 
 tools = [retriever]
