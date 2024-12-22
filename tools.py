@@ -15,10 +15,6 @@ from chromadb.config import Settings
 import streamlit as st
 import tempfile
 
-chromadb.api.client.SharedSystemClient.clear_system_cache()
-
-PERSIST_DIR ='chroma/'
-
 def get_youtube_transcription(video_url, language_code=['pt']):
   # Extrair o ID do vídeo a partir do URL
   video_id = video_url.split("v=")[-1]
@@ -67,7 +63,8 @@ def load_doc_to_db(doc_splits):
   db = vector_store_var
   # Add to vectorDB
   db.from_documents(
-      documents=doc_splits
+      documents=doc_splits,
+      embeddings=embeddings
   )
   print("loaded")
 
