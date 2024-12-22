@@ -7,6 +7,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter, WebVTTFormatter, SRTFormatter
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
+from langchain_core.vectorstores import InMemoryVectorStore
 import chromadb
 from langchain_core.tools import tool
 from langchain_core.documents import Document
@@ -56,9 +57,7 @@ def format_doc(docs,link):
 @st.cache_resource()
 def vector_store():
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
-  vectorstore = Chroma(collection_name="rag-chroma",
-                      embedding_function=embeddings,
-                      )
+  vectorstore = InMemoryVectorStore(embeddings)
   return vectorstore
 
 vector_store_var = vector_store()
@@ -68,10 +67,9 @@ def load_doc_to_db(doc_splits):
   db = vector_store_var
   # Add to vectorDB
   db.from_documents(
-      documents=doc_splits,
-      collection_name="rag-chroma",
-      embedding=embeddings
+      documents=doc_splits
   )
+  print("loaded")
 
 def load_doc_pipeline(link,language_code='pt'):
   transcript = get_youtube_transcription(link)
