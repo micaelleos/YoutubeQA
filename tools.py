@@ -64,7 +64,7 @@ def load_doc_to_db(doc_splits):
   # Add to vectorDB
   db.from_documents(
       documents=doc_splits,
-      embeddings=embeddings
+      embedding=embeddings
   )
   print("loaded")
 
