@@ -59,7 +59,7 @@ def vector_store():
                       )
   return vectorstore
 
-vector_store_var = vector_store
+vector_store_var = vector_store()
 
 def load_doc_to_db(doc_splits):
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
