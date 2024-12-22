@@ -14,6 +14,8 @@ from chromadb.config import Settings
 import streamlit as st
 import tempfile
 
+chromadb.api.client.SharedSystemClient.clear_system_cache()
+
 PERSIST_DIR ='chroma/'
 
 def get_youtube_transcription(video_url, language_code=['pt']):
