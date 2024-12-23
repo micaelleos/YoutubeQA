@@ -25,6 +25,7 @@ def get_youtube_transcription(video_url, language_code=['pt']):
 
 
 def format_transcript(transcript):
+    print("formatação iniciada")
     tempo = 0
     formated_list = []
     frase = ""
@@ -35,6 +36,7 @@ def format_transcript(transcript):
         formated_list.append({"text":frase,"start":round(tempo)})
         tempo = 0
         frase = ""
+    print(formated_list)
     return formated_list
 
 def format_doc(docs,link):
