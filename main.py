@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 from youtubeqa import Bot
-from tools import load_doc_pipeline
+from tools import load_doc_pipeline, limpar_pasta
 
 # st.html("""
 #     <style>
@@ -16,6 +16,8 @@ from tools import load_doc_pipeline
 #     }
 #     </style>
 # """)
+
+limpar_pasta()
 
 # Streamed response emulator
 def response_generator(response):

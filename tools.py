@@ -68,11 +68,7 @@ def load_doc_pipeline(link,language_code='pt'):
 
 def vector_store():
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
-  #persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
-  persistent_client = chromadb.Client(Settings(
-                                      chroma_db_impl="duckdb+parquet",
-                                      persist_directory=None  # Dados temporários
-                                  ))
+  persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
   vectorstore = Chroma(client=persistent_client,
                                   collection_name="rag-chroma",
                                   embedding_function=embeddings,
@@ -82,7 +78,6 @@ def vector_store():
 
 
 def limpar_pasta(caminho_pasta=PERSIST_DIR):
-
     if not os.path.exists(caminho_pasta):
         print(f"A pasta '{caminho_pasta}' não existe.")
         return
