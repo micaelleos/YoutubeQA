@@ -48,7 +48,7 @@ def format_doc(docs,link):
     return formated_docs
 
 @st.cache_resource()
-def vector_store():
+def vector_store(id):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
     #persistent_client = chromadb.PersistentClient()
     vectorstore = Chroma(#client=persistent_client,
@@ -59,7 +59,7 @@ def vector_store():
 
 def load_doc_to_db(doc_splits):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
-    db = vector_store()
+    db = vector_store(st.session_state.id)
     # Add to vectorDB
     db.from_documents(
         documents=doc_splits,
@@ -81,7 +81,7 @@ def load_doc_pipeline(link,language_code='pt'):
 @tool(response_format="content_and_artifact")
 def retriever(query: str):
     """Retrieve information related to a query."""
-    vectorstore = vector_store()
+    vectorstore = vector_store(st.session_state.id)
     retrieved_docs = vectorstore.similarity_search(query, k=5)
     serialized = "\n\n".join(
         (f"Source: {doc.metadata}\n" f"Content: {doc.page_content}")
