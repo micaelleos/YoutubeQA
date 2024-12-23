@@ -66,8 +66,11 @@ def load_doc_to_db(doc_splits):
   print("loaded")
 
 def load_doc_pipeline(link,language_code='pt'):
+  print("inicio")
   transcript = get_youtube_transcription(link)
+  print(transcript)
   formated_list = format_transcript(transcript)
+  print(formated_list)
   doc_splits = format_doc(formated_list,link)
   print(doc_splits)
   load_doc_to_db(doc_splits)
