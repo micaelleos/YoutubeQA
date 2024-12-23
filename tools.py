@@ -69,7 +69,8 @@ def load_doc_to_db(doc_splits):
     db.from_documents(
         documents=doc_splits,
         collection_name="rag-chroma",
-        embedding=embeddings
+        embedding=embeddings,
+        persist_directory=PERSIST_DIR
     )
     print("load")
 
