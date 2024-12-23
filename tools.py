@@ -61,7 +61,10 @@ def load_doc_to_db(doc_splits):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
     db = vector_store(st.session_state.id)
     # Add to vectorDB
-    db.from_documents(embedding=embeddings,documents=doc_splits)
+    db.from_documents(
+    documents=doc_splits,
+    collection_name="rag-chroma",
+    embedding=embeddings)
     print("loaded")
 
 def load_doc_pipeline(link,language_code='pt'):
@@ -74,7 +77,6 @@ def load_doc_pipeline(link,language_code='pt'):
     print(doc_splits)
     load_doc_to_db(doc_splits)
     print("video loaded")
-
 
 @tool(response_format="content_and_artifact")
 def retriever(query: str):
