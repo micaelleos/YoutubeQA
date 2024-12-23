@@ -3,6 +3,8 @@ import time
 from youtubeqa import Bot
 from tools import load_doc_pipeline
 import uuid
+import os
+import shutil
 # st.html("""
 #     <style>
 #     .st-emotion-cache-0{
@@ -17,7 +19,10 @@ import uuid
 #     </style>
 # """)
 
-
+PERSIST_DIR ='chroma/'
+if os.path.exists(PERSIST_DIR) and os.path.isdir(PERSIST_DIR ):
+    shutil.rmtree(PERSIST_DIR)
+os.mkdir(PERSIST_DIR)
 
 # Streamed response emulator
 def response_generator(response):

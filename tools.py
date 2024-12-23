@@ -13,9 +13,6 @@ from langchain_core.documents import Document
 import streamlit as st
 
 PERSIST_DIR ='chroma/'
-if os.path.exists(PERSIST_DIR ) and os.path.isdir(PERSIST_DIR ):
-    shutil.rmtree(PERSIST_DIR )
-os.mkdir(PERSIST_DIR)
 
 def get_youtube_transcription(video_url, language_code=['pt']):
     # Extrair o ID do vídeo a partir do URL
