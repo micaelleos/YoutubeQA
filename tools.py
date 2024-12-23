@@ -7,7 +7,6 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter, WebVTTFormatter, SRTFormatter
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
-import chromadb
 from langchain_core.tools import tool
 from langchain_core.documents import Document
 
@@ -68,10 +67,13 @@ def load_doc_to_db(doc_splits):
       collection_name="rag-chroma",
       embedding=embeddings
   )
+  print("load")
 
 def load_doc_pipeline(link,language_code='pt'):
   transcript = get_youtube_transcription(link)
+  print(transcript)
   formated_list = format_transcript(transcript)
+  print(formated_list)
   doc_splits = format_doc(formated_list,link)
   load_doc_to_db(doc_splits)
   print("video loaded")
@@ -85,6 +87,7 @@ def retriever(query: str):
         (f"Source: {doc.metadata}\n" f"Content: {doc.page_content}")
         for doc in retrieved_docs
     )
+    print(serialized)
     return serialized, retrieved_docs
 
 tools = [retriever]
