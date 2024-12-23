@@ -27,6 +27,7 @@ def response_generator(response):
 
 if "id" not in st.session_state:
     st.session_state.id = uuid.uuid4()
+    print(st.session_state.id)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
