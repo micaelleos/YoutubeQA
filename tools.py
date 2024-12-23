@@ -49,6 +49,16 @@ def format_doc(docs,link):
     formated_docs.append(document)
   return formated_docs
 
+@st.cache_resource
+def vector_store():
+  embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
+  #persistent_client = chromadb.PersistentClient()
+  vectorstore = Chroma(#client=persistent_client,
+                                  collection_name="rag-chroma",
+                                  embedding_function=embeddings,
+                                  )
+  return vectorstore
+
 def load_doc_to_db(doc_splits):
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
   db = vector_store()
@@ -65,34 +75,6 @@ def load_doc_pipeline(link,language_code='pt'):
   doc_splits = format_doc(formated_list,link)
   load_doc_to_db(doc_splits)
   print("video loaded")
-
-def vector_store():
-  embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
-  persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
-  vectorstore = Chroma(client=persistent_client,
-                                  collection_name="rag-chroma",
-                                  embedding_function=embeddings,
-                                  )
-  return vectorstore
-
-
-
-def limpar_pasta(caminho_pasta=PERSIST_DIR):
-    if not os.path.exists(caminho_pasta):
-        print(f"A pasta '{caminho_pasta}' não existe.")
-        return
-    
-    for item in os.listdir(caminho_pasta):
-        item_caminho = os.path.join(caminho_pasta, item)
-        try:
-            if os.path.isfile(item_caminho) or os.path.islink(item_caminho):
-                os.unlink(item_caminho)  # Remove arquivos e links simbólicos
-            elif os.path.isdir(item_caminho):
-                shutil.rmtree(item_caminho)  # Remove diretórios e seus conteúdos
-        except Exception as e:
-            print(f"Erro ao excluir '{item_caminho}': {e}")
-    print(f"A pasta '{caminho_pasta}' foi limpa com sucesso!")
-
 
 @tool(response_format="content_and_artifact")
 def retriever(query: str):
