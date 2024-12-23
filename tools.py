@@ -15,6 +15,9 @@ from chromadb.config import Settings
 import streamlit as st
 import tempfile
 
+
+
+
 def get_youtube_transcription(video_url, language_code=['pt']):
   # Extrair o ID do vídeo a partir do URL
   video_id = video_url.split("v=")[-1]
@@ -23,7 +26,6 @@ def get_youtube_transcription(video_url, language_code=['pt']):
   # Obter a transcrição no idioma especificado
   transcript = YouTubeTranscriptApi.get_transcript(video_id,languages=language_code)
   return transcript
-
 
 def format_transcript(transcript):
   tempo = 0
@@ -56,11 +58,9 @@ def vector_store():
   vectorstore = InMemoryVectorStore(embeddings)
   return vectorstore
 
-vector_store_var = vector_store()
-
 def load_doc_to_db(doc_splits):
   embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
-  db = vector_store_var
+  db = vector_store()
   # Add to vectorDB
   db.from_documents(embedding=embeddings,documents=doc_splits)
   print("loaded")
@@ -77,7 +77,7 @@ def load_doc_pipeline(link,language_code='pt'):
 @tool(response_format="content_and_artifact")
 def retriever(query: str):
     """Retrieve information related to a query."""
-    vectorstore = vector_store_var
+    vectorstore = vector_store()
     retrieved_docs = vectorstore.similarity_search(query, k=5)
     serialized = "\n\n".join(
         (f"Source: {doc.metadata}\n" f"Content: {doc.page_content}")
