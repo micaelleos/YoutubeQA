@@ -2,6 +2,7 @@ import streamlit as st
 import time
 from youtubeqa import Bot
 from tools import load_doc_pipeline
+import uuid
 
 # st.html("""
 #     <style>
@@ -23,6 +24,9 @@ def response_generator(response):
     for word in response.split(" "):
         yield word+ " "
         time.sleep(0.05)
+
+if "id" not in st.session_state:
+    st.session_state.id = uuid.uuid4()
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
