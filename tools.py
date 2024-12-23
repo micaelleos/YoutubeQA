@@ -3,6 +3,7 @@ import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import os
 import shutil
+import chromadb
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter, WebVTTFormatter, SRTFormatter
 from langchain_openai import OpenAIEmbeddings
@@ -50,8 +51,8 @@ def format_doc(docs,link):
 @st.cache_resource()
 def vector_store(id):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
-    #persistent_client = chromadb.PersistentClient()
-    vectorstore = Chroma(#client=persistent_client,
+    persistent_client = chromadb.PersistentClient()
+    vectorstore = Chroma(client=persistent_client,
                                     collection_name="rag-chroma",
                                     embedding_function=embeddings,
                                     )
