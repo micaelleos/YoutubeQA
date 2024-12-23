@@ -17,8 +17,6 @@ from tools import load_doc_pipeline
 #     </style>
 # """)
 
-limpar_pasta()
-
 # Streamed response emulator
 def response_generator(response):
     time.sleep(0.03)
