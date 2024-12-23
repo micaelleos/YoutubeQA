@@ -13,7 +13,8 @@ from langchain_core.documents import Document
 import streamlit as st
 
 PERSIST_DIR ='chroma/'
-os.remove(PERSIST_DIR)
+if os.path.exists(PERSIST_DIR ) and os.path.isdir(PERSIST_DIR ):
+    shutil.rmtree(PERSIST_DIR )
 os.mkdir(PERSIST_DIR)
 
 def get_youtube_transcription(video_url, language_code=['pt']):
