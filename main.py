@@ -17,6 +17,7 @@ from tools import load_doc_pipeline
 #     </style>
 # """)
 
+print("session state:",st.session_state)
 # Streamed response emulator
 def response_generator(response):
     time.sleep(0.03)
