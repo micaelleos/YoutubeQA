@@ -13,6 +13,8 @@ from langchain_core.documents import Document
 import streamlit as st
 
 PERSIST_DIR ='chroma/'
+os.remove(PERSIST_DIR)
+os.mkdir(PERSIST_DIR)
 
 def get_youtube_transcription(video_url, language_code=['pt']):
     # Extrair o ID do vídeo a partir do URL
@@ -50,10 +52,10 @@ def format_doc(docs,link):
       formated_docs.append(document)
     return formated_docs
 
-@st.cache_resource()
-def vector_store(id):
+@st.cache_resource
+def vector_store():
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
-    persistent_client = chromadb.PersistentClient()
+    persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
     vectorstore = Chroma(client=persistent_client,
                                     collection_name="rag-chroma",
                                     embedding_function=embeddings,
@@ -62,7 +64,7 @@ def vector_store(id):
 
 def load_doc_to_db(doc_splits):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
-    db = vector_store(st.session_state.id)
+    db = vector_store()
     # Add to vectorDB
     db.from_documents(
         documents=doc_splits,
@@ -84,7 +86,7 @@ def load_doc_pipeline(link,language_code='pt'):
 @tool(response_format="content_and_artifact")
 def retriever(query: str):
     """Retrieve information related to a query."""
-    vectorstore = vector_store(st.session_state.id)
+    vectorstore = vector_store()
     retrieved_docs = vectorstore.similarity_search(query, k=5)
     serialized = "\n\n".join(
         (f"Source: {doc.metadata}\n" f"Content: {doc.page_content}")
