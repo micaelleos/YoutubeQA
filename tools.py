@@ -52,7 +52,6 @@ def format_doc(docs,link):
       formated_docs.append(document)
     return formated_docs
 
-@st.cache_resource
 def vector_store():
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
     persistent_client = chromadb.PersistentClient(path=PERSIST_DIR)
