@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 from youtubeqa import Bot
-from tools import load_doc_pipeline, limpar_pasta
+from tools import load_doc_pipeline
 
 # st.html("""
 #     <style>
