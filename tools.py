@@ -31,10 +31,9 @@ def format_transcript(transcript):
       tempo += t['duration']
       frase += t['text']
       if tempo >= 300:
-        formated_list.append({"text":frase,"start":tempo})
+        formated_list.append({"text":frase,"start":round(tempo)})
         tempo = 0
         frase = ""
-      formated_list.append({"text":frase,"start":round(tempo)})
     return formated_list
 
 def format_doc(docs,link):
