@@ -58,13 +58,11 @@ def vector_store():
     return vectorstore
 
 def load_doc_to_db(doc_splits):
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
+    #embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
     db = vector_store()
     # Add to vectorDB
-    db.from_documents(
-    documents=doc_splits,
-    collection_name="rag-chroma",
-    embedding=embeddings)
+    db.add_documents(
+    documents=doc_splits)
     print("loaded")
 
 def load_doc_pipeline(link,language_code='pt'):
