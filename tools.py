@@ -51,28 +51,31 @@ def format_doc(docs,link):
       formated_docs.append(document)
     return formated_docs
 
-@st.cache_resource
+@st.cache_resource()
 def vector_store():
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ["OPEN_API_KEY"])
     vectorstore = InMemoryVectorStore(embeddings)
+    print("caching resource")
     return vectorstore
 
 def load_doc_to_db(doc_splits):
     #embeddings = OpenAIEmbeddings(model="text-embedding-3-large",api_key=os.environ["OPEN_API_KEY"])
     db = vector_store()
+    print(db)
     # Add to vectorDB
-    db.add_documents(
+    ids = db.add_documents(
     documents=doc_splits)
+    print(ids)
     print("loaded")
 
 def load_doc_pipeline(link,language_code='pt'):
     print("inicio")
     transcript = get_youtube_transcription(link)
-    print(transcript)
+    print("transcript")
     formated_list = format_transcript(transcript)
-    print(formated_list)
+    print("formated_list")
     doc_splits = format_doc(formated_list,link)
-    print(doc_splits)
+    print("doc_splits")
     load_doc_to_db(doc_splits)
     print("video loaded")
 
