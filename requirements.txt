@@ -10,3 +10,4 @@ langgraph
 streamlit
 youtube-transcript-api
 pysqlite3-binary
+google-api-python-client

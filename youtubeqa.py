@@ -3,7 +3,7 @@ import streamlit as st
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
 from langchain_openai import ChatOpenAI
-from tools import tools
+from tools import tools, stuff_docs, video_data
 from langchain_core.messages import AIMessage
 from prompt import prompt
 
@@ -34,3 +34,16 @@ class Bot():
             if isinstance(event["messages"][-1], AIMessage):
                 menssage = event["messages"][-1]
         return menssage.content
+    
+    def load_summary(self):
+        text = stuff_docs()
+        data = video_data(st.session_state.video_id)
+        summary = f""" Seguem a seguir dados do vídeo, e seu início:
+        #### Dados:
+        {data}
+
+        #### 15 primeiros minutos do vídeo, para entendimento de contexto:
+        {text}
+        """
+        self.agent_executor.invoke(input={"messages":[{"role":"assistant","content":summary}]},config=self.config)
+
