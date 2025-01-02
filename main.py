@@ -58,6 +58,9 @@ with st.container():
                     st.exception(e)
                     st.session_state["load"] = "ERRO"
                 
+                if  st.session_state["load"] == "Sucesso":
+                    break
+                
                 tentativas += 1
                 time.sleep(0.1)
                 
