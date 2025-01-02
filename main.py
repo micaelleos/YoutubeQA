@@ -46,15 +46,20 @@ with st.container():
         url = st.text_input("Indique o link do vídeo para conversar sobre:", "")
     with cols[1]:
         if st.button("Ok",use_container_width=True):
-            try:
-                with st.spinner(""):
-                    load_doc_pipeline(url)
-                    st.session_state["load"] = "Sucesso"
-                    bot.load_summary()
+            tentativas = 0
+            while tentativas < 3:
+                try:
+                    with st.spinner(""):
+                        load_doc_pipeline(url)
+                        st.session_state["load"] = "Sucesso"
+                        bot.load_summary()
+                    
+                except Exception as e:
+                    st.exception(e)
+                    st.session_state["load"] = "ERRO"
                 
-            except Exception as e:
-                st.exception(e)
-                st.session_state["load"] = "ERRO"
+                tentativas += 1
+                time.sleep(0.1)
                 
     if st.session_state["load"] == "Sucesso":
         st.success("Video carregado com sucesso.")
