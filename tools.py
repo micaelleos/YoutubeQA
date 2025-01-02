@@ -117,6 +117,7 @@ def video_data(video_id):
 
     # Exibe os detalhes do vídeo
     dados = f"""
+    Canal: {snippet["channelTitle"]}
     Título: {snippet["title"]}
     Descrição: {snippet["description"]}
     Data de publicação: {snippet["publishedAt"]}
@@ -124,6 +125,7 @@ def video_data(video_id):
     Número de likes: {statistics.get("likeCount", "N/A")}
     Duração: {content_details["duration"]}
     """
+    return dados
   
 @tool(response_format="content_and_artifact")
 def retriever(query: str):
