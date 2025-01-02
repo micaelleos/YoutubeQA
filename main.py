@@ -25,6 +25,10 @@ def response_generator(response):
         yield word+ " "
         time.sleep(0.05)
 
+if "init" not in st.session_state:
+    st.session_state.init = "cache_cleared"
+    st.cache_resource.clear()
+
 if "id" not in st.session_state:
     st.session_state.id = uuid.uuid4()
     print(st.session_state.id)
@@ -60,7 +64,7 @@ with st.container():
                 
                 if  st.session_state["load"] == "Sucesso":
                     break
-                
+
                 tentativas += 1
                 time.sleep(0.1)
                 
