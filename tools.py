@@ -9,6 +9,7 @@ from langchain_core.tools import tool
 from langchain_core.documents import Document
 import streamlit as st
 from googleapiclient.discovery import build
+import re
 
 # Configurações da API
 API_KEY = os.environ["YOUTUBE_API_KEY"]  # Substitua pela sua chave de API
@@ -16,17 +17,27 @@ YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
 def get_youtube_transcription(video_url, language_code=['pt']):
-    # Extrair o ID do vídeo a partir do URL
-    video_id = video_url.split("v=")[-1]
-    if "&" in video_id:
-        video_id = video_id.split("&")[0]
+    # Expressão regular para capturar o ID de um vídeo do YouTube
+    youtube_regex = (
+        r"(?:https?://)?(?:www\.)?(?:youtube\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)|.*[?&]v=)|youtu\.be/)([^\"&?/\s]{11})"
+    )
+    match = re.match(youtube_regex, video_url)
+    
+    if not match:
+        raise ValueError("URL inválida. Certifique-se de fornecer um link válido do YouTube.")
+    
+    video_id = match.group(1)
 
     # Guardar id do video para coleta de informações
     if "video_id" not in st.session_state:
-        st.session_state.video_id=video_id
+        st.session_state.video_id = video_id
 
     # Obter a transcrição no idioma especificado
-    transcript = YouTubeTranscriptApi.get_transcript(video_id,languages=language_code)
+    try:
+        transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=language_code)
+    except Exception as e:
+        raise ValueError(f"Erro ao obter a transcrição: {str(e)}")
+
     return transcript
 
 
