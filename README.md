@@ -1,99 +1,120 @@
-# YoutubeQA
+# **YoutubeQA**  
 
-Este repositório contém o código para um bot de perguntas e respostas (QA) para vídeos no YouTube, construído usando Python, Streamlit, LangGraph e Chroma. O bot permite que os usuários realizem perguntas relacionadas a vídeos no YouTube e obtenham respostas precisas baseadas no conteúdo dos vídeos.
+This repository contains the code for a question-and-answer (QA) bot for YouTube videos, built using Python, Streamlit, LangGraph, and Chroma. The bot allows users to ask questions related to YouTube videos and receive accurate answers based on the video content.  
 
-## Funcionalidades
+---
 
-- **Análise Automática de Vídeos:** Extração de conteúdo textual de vídeos no YouTube.
-- **Respostas Inteligentes:** Uso de LangGraph para processar e responder perguntas sobre os vídeos.
-- **Interface Intuitiva:** Interface de usuário simples e interativa desenvolvida com Streamlit.
-- **Gerenciamento de Dados:** Utilização do Chroma para armazenamento e recuperação eficiente de dados.
+## **Features**  
 
-## Tecnologias Utilizadas
+- **Automatic Video Analysis:** Extracts textual content from YouTube videos.  
+- **Intelligent Responses:** Uses LangGraph to process and answer questions about videos.  
+- **User-Friendly Interface:** Simple and interactive UI developed with Streamlit.  
+- **Data Management:** Uses Chroma for efficient data storage and retrieval.  
 
-- **[Python](https://www.python.org/):** Linguagem de programação principal.
-- **[Streamlit](https://streamlit.io/):** Framework para criar aplicações web interativas.
-- **[LangGraph](https://github.com/langgraph/langgraph):** Ferramenta para criação e gerenciamento de fluxos de linguagem.
-- **[Chroma](https://www.trychroma.com/):** Plataforma para armazenamento e busca vetorial de dados.
+---
 
-## Requisitos
+## **Technologies Used**  
 
-Certifique-se de que você tenha os seguintes itens instalados em seu ambiente:
+- **[Python](https://www.python.org/):** Main programming language.  
+- **[Streamlit](https://streamlit.io/):** Framework for building interactive web applications.  
+- **[LangGraph](https://github.com/langgraph/langgraph):** Tool for creating and managing language processing workflows.  
+- **[Chroma](https://www.trychroma.com/):** Platform for vector storage and data retrieval.  
 
-- Python 3.8 ou superior
-- Pip (gerenciador de pacotes do Python)
+---
 
-## Instalação
+## **Requirements**  
 
-1. Clone este repositório:
+Make sure you have the following installed on your environment:  
+
+- Python 3.8 or higher  
+- Pip (Python package manager)  
+
+---
+
+## **Installation**  
+
+1. Clone this repository:  
 
    ```bash
    git clone https://github.com/micaelleos/YoutubeQA.git
    cd YoutubeQA
-   ```
+   ```  
 
-2. Instale as dependências necessárias:
+2. Install the required dependencies:  
 
    ```bash
    pip install -r requirements.txt
-   ```
+   ```  
 
-3. Configure as variáveis de ambiente necessárias (como chaves de API para o YouTube, LangGraph e Chroma):
+3. Set up the required environment variables (such as API keys for YouTube, LangGraph, and Chroma):  
 
    ```bash
-   export OPEN_API_KEY="sua_chave_aqui"
-   ```
+   export OPEN_API_KEY="your_api_key_here"
+   ```  
 
-4. Inicie o aplicativo Streamlit:
+4. Run the Streamlit application:  
 
    ```bash
    streamlit run app.py
-   ```
+   ```  
 
-5. Acesse o aplicativo no navegador em: [http://localhost:8501](http://localhost:8501)
+5. Access the application in your browser at: [http://localhost:8501](http://localhost:8501)  
 
-## Como Usar
+---
 
-1. Cole o URL de um vídeo do YouTube no campo de entrada.
-2. Aguarde a extração e indexação do conteúdo do vídeo.
-3. Digite suas perguntas no campo apropriado.
-4. Receba respostas baseadas no conteúdo do vídeo.
+## **How to Use**  
 
-## Estrutura do Projeto
+1. Paste a YouTube video URL into the input field.  
+2. Wait for the content extraction and indexing process.  
+3. Enter your questions in the appropriate field.  
+4. Receive answers based on the video content.  
+
+---
+
+## **Project Structure**  
 
 ```
-├── main.py             # Arquivo principal da aplicação Streamlit
-├── README.md          # Documentação do projeto
+├── main.py             # Main Streamlit application file
+├── README.md           # Project documentation
 ├── prompt.py
 ├── requirements.txt
 ├── tools.py
 └── youtubeqa.py
-```
-
-## Contribuições
-
-Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
-
-1. Faça um fork deste repositório.
-2. Crie uma branch para sua funcionalidade ou correção de bug:
-   ```bash
-   git checkout -b minha-nova-feature
-   ```
-3. Faça commit das suas alterações:
-   ```bash
-   git commit -m "Adiciona nova funcionalidade"
-   ```
-4. Envie para o GitHub:
-   ```bash
-   git push origin minha-nova-feature
-   ```
-5. Abra um Pull Request.
-
-## Licença
-
-Este projeto está licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais informações.
+```  
 
 ---
 
-Desenvolvido com ❤ por [Micaelle Souza].
+## **Contributions**  
 
+Contributions are welcome! Follow the steps below to contribute:  
+
+1. Fork this repository.  
+2. Create a branch for your feature or bug fix:  
+
+   ```bash
+   git checkout -b my-new-feature
+   ```  
+
+3. Commit your changes:  
+
+   ```bash
+   git commit -m "Add new feature"
+   ```  
+
+4. Push to GitHub:  
+
+   ```bash
+   git push origin my-new-feature
+   ```  
+
+5. Open a Pull Request.  
+
+---
+
+## **License**  
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.  
+
+---
+
+Developed by **Micaelle Souza**.  
