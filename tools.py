@@ -48,22 +48,25 @@ proxys_list = [
 ]
 
 def get_youtube_transcription(video_url):
-  proxy = proxys_list[randrange(0,len(proxys_list))]
+    proxy = proxys_list[randrange(0,len(proxys_list))]
 
-  ytt_api = YouTubeTranscriptApi(
-      proxy_config=GenericProxyConfig(
-          http_url=str(proxy),
-      )
-  )
-  print("Proxy used:",proxy)
-  # Extrair o ID do vídeo a partir do URL
-  video_id = video_url.split("v=")[-1]
-  if "&" in video_id:
-      video_id = video_id.split("&")[0]
-  # Obter a transcrição no idioma especificado
+    ytt_api = YouTubeTranscriptApi(
+        proxy_config=GenericProxyConfig(
+            http_url=str(proxy),
+        )
+    )
+    print("Proxy used:",proxy)
+    # Extrair o ID do vídeo a partir do URL
+    video_id = video_url.split("v=")[-1]
+    if "&" in video_id:
+        video_id = video_id.split("&")[0]
+    # Obter a transcrição no idioma especificado
     # all requests done by ytt_api will now be proxied using the defined proxy URLs
-  transcript = ytt_api.fetch(video_id,languages=['pt','en']).to_raw_data()
-  return transcript
+    transcript = ytt_api.fetch(video_id,languages=['pt','en']).to_raw_data()
+
+    st.session_state.video_id = video_id
+
+    return transcript
 
 
 def format_transcript(transcript):
@@ -107,7 +110,7 @@ def load_doc_to_db(doc_splits):
     ids = db.add_documents(
     documents=doc_splits)
 
-def load_doc_pipeline(link,language_code='pt'):
+def load_doc_pipeline(link):
     print("inicio")
     transcript = get_youtube_transcription(link)
     print("transcript")
