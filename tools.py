@@ -11,17 +11,52 @@ from langchain_chroma import Chroma
 from langchain_core.tools import tool
 from langchain_core.documents import Document
 import streamlit as st
+from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.proxies import GenericProxyConfig
+from random import randrange
 
 PERSIST_DIR ='chroma/'
 
-def get_youtube_transcription(video_url, language_code=['pt']):
-    # Extrair o ID do vídeo a partir do URL
-    video_id = video_url.split("v=")[-1]
-    if "&" in video_id:
-        video_id = video_id.split("&")[0]
-    # Obter a transcrição no idioma especificado
-    transcript = YouTubeTranscriptApi.get_transcript(video_id,languages=language_code)
-    return transcript
+proxys_list = [
+'http://zqF7vrzr61igCX4R:74DbvK4zabvQhAL6@geo.g-w.info:10080',
+'http://vgH32cWDhIOk2Bw7:PVZ1lCx45zAHtKlG@geo.g-w.info:10080',
+'http://nGCApP1Hbhnp8uNc:5uJKM6WGu4ylrTWv@geo.g-w.info:10080',
+'http://FCIHpTT8wWaWsUJo:bgEjCLLZoLYPUMgg@geo.g-w.info:10080',
+'http://dnJjoIBS7QjO82YW:3lQXC6naPVjOu5er@geo.g-w.info:10080',
+'http://bWryHGIo1SbGgMjL:xm4F6X84OWolvGrJ@geo.g-w.info:10080',
+'http://Z2hmhG05c6t0Rpsn:9BICzoFvcMoF79Ms@geo.g-w.info:10080',
+'http://kuVmSIW7IKK8rv56:qAmb5KDgKIbmKHuH@geo.g-w.info:10080',
+'http://ajrbjqj5RdVCBJq6:2olZ7eIsjyAy32c7@geo.g-w.info:10080',
+'http://oeM60LpEPpmLkiSZ:lxejKq7KVGovPoZc@geo.g-w.info:10080',
+'http://zG0wa4lu2m5a7Imx:xN51BzuBg9f2NYk3@geo.g-w.info:10080',
+'http://MJkrWmvEcmTwpTtH:3HJkTQ6hAr8HkHsH@geo.g-w.info:10080',
+'http://6wfY0Uv9VUQ8jxBn:agl5FNaD9VIt1t7X@geo.g-w.info:10080',
+'http://XF4lKbFuMSyi29o0:mPfwalzcP4lyMJZA@geo.g-w.info:10080',
+'http://O37ZFFoiRDe1b9A8:eCmGAy6gZvcYo3wu@geo.g-w.info:10080',
+'http://0n7QY373U1u0h3LT:LCpoH8L78aSnptWc@geo.g-w.info:10080',
+'http://P9x6vjOsyNOmrbXL:X1t9MFApJGdovjtT@geo.g-w.info:10080',
+'http://kwgcKBJ4zwTipstV:KEsvwo7iPMfbGKxM@geo.g-w.info:10080',
+'http://mCfiaSjaJmAEisAU:zm2gz0qEvaKLfiTv@geo.g-w.info:10080',
+'http://J8d9Anvt86wzmnph:8TjRri18rLMZcSD4@geo.g-w.info:10080',
+]
+
+def get_youtube_transcription(video_url):
+  proxy = proxys_list[randrange(0,len(proxys_list))]
+
+  ytt_api = YouTubeTranscriptApi(
+      proxy_config=GenericProxyConfig(
+          http_url=str(proxy),
+      )
+  )
+  print("Proxy used:",proxy)
+  # Extrair o ID do vídeo a partir do URL
+  video_id = video_url.split("v=")[-1]
+  if "&" in video_id:
+      video_id = video_id.split("&")[0]
+  # Obter a transcrição no idioma especificado
+    # all requests done by ytt_api will now be proxied using the defined proxy URLs
+  transcript = ytt_api.fetch(video_id,languages=['pt','en']).to_raw_data()
+  return transcript
 
 
 def format_transcript(transcript):
