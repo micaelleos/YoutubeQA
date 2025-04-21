@@ -1,6 +1,4 @@
-__import__('pysqlite3')
 import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import os
 from youtube_transcript_api import YouTubeTranscriptApi
 from langchain_openai import OpenAIEmbeddings
@@ -13,8 +11,9 @@ import re
 
 
 
+
 # Configurações da API
-API_KEY = os.environ["YOUTUBE_API_KEY"]  # Substitua pela sua chave de API
+API_KEY = "AIzaSyA8luSGlOfbwDk7r-Fae6CvulKvNOwp18Q"#os.environ["YOUTUBE_API_KEY"]  # Substitua pela sua chave de API
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
@@ -119,13 +118,15 @@ def load_doc_pipeline(link):
     doc_splits = format_doc(formated_list,link)
     print("doc_splits")
     load_doc_to_db(doc_splits)
-    stuff_docs()
     print("video loaded")
 
 @st.cache_resource()
-def stuff_docs():
+def stuff_docs(n=None):
     db = vector_store()
-    keys = list(db.store.keys())[:4]
+    if not n:
+        keys = list(db.store.keys())
+    else:
+        keys = list(db.store.keys())[:n]
     stuff_doc = []
     for k in keys:
         stuff_doc.append(db.store[k]["text"])
@@ -178,5 +179,6 @@ def retriever(query: str):
     )
     print(serialized)
     return serialized, retrieved_docs
+
 
 tools = [retriever]

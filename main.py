@@ -56,7 +56,7 @@ with st.container():
                     with st.spinner(""):
                         load_doc_pipeline(url)
                         st.session_state["load"] = "Sucesso"
-                        bot.load_summary()
+                        bot.load_init()
                     
                 except Exception as e:
                     st.exception(e)
