@@ -10,8 +10,6 @@ from googleapiclient.discovery import build
 import re
 
 
-
-
 # Configurações da API
 API_KEY = "AIzaSyA8luSGlOfbwDk7r-Fae6CvulKvNOwp18Q"#os.environ["YOUTUBE_API_KEY"]  # Substitua pela sua chave de API
 YOUTUBE_API_SERVICE_NAME = "youtube"
@@ -46,26 +44,35 @@ proxys_list = [
 'http://J8d9Anvt86wzmnph:8TjRri18rLMZcSD4@geo.g-w.info:10080',
 ]
 
+
+
 def get_youtube_transcription(video_url):
-    proxy = proxys_list[randrange(0,len(proxys_list))]
+    proxy = proxys_list[randrange(0, len(proxys_list))]
 
     ytt_api = YouTubeTranscriptApi(
         proxy_config=GenericProxyConfig(
             http_url=str(proxy),
         )
     )
-    print("Proxy used:",proxy)
-    # Extrair o ID do vídeo a partir do URL
-    video_id = video_url.split("v=")[-1]
-    if "&" in video_id:
-        video_id = video_id.split("&")[0]
+    print("Proxy used:", proxy)
+
+    # Regex para extrair o ID do vídeo de diferentes formatos de URL
+    video_id_match = re.search(
+        r"(?:v=|\/)([0-9A-Za-z_-]{11}).*",
+        video_url
+    )
+    if not video_id_match:
+        raise ValueError("Não foi possível extrair o ID do vídeo.")
+    
+    video_id = video_id_match.group(1)
+
     # Obter a transcrição no idioma especificado
-    # all requests done by ytt_api will now be proxied using the defined proxy URLs
-    transcript = ytt_api.fetch(video_id,languages=['pt','en']).to_raw_data()
+    transcript = ytt_api.fetch(video_id, languages=['pt', 'en']).to_raw_data()
 
     st.session_state.video_id = video_id
 
     return transcript
+
 
 
 def format_transcript(transcript):
